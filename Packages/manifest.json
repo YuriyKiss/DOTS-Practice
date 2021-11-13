@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.havok.physics": "0.6.0-preview.3",
     "com.unity.collab-proxy": "1.13.5",
     "com.unity.entities": "0.17.0-preview.42",
     "com.unity.ide.rider": "2.0.7",
