@@ -406,7 +406,6 @@ GameObject:
   m_Component:
   - component: {fileID: 536191240}
   - component: {fileID: 536191242}
-  - component: {fileID: 536191241}
   m_Layer: 0
   m_Name: Physics Settings
   m_TagString: Untagged
@@ -428,32 +427,6 @@ Transform:
   m_Father: {fileID: 314273529}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &536191241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 536191239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06de384a85e79e44a6d2eb462730949, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnableSleeping: 1
-  BodyTagsForContactWelding:
-    Tag00: 0
-    Tag01: 0
-    Tag02: 0
-    Tag03: 0
-    Tag04: 0
-    Tag05: 0
-    Tag06: 0
-    Tag07: 0
-  VisualDebugger:
-    EnableVisualDebugger: 0
-    Port: 25001
-    TimerBufferSize: 1048576
 --- !u!114 &536191242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -994,10 +967,10 @@ GameObject:
   - component: {fileID: 1666482465}
   - component: {fileID: 1666482464}
   - component: {fileID: 1666482463}
-  - component: {fileID: 1666482467}
-  - component: {fileID: 1666482466}
   - component: {fileID: 1666482468}
   - component: {fileID: 1666482469}
+  - component: {fileID: 1666482467}
+  - component: {fileID: 1666482466}
   - component: {fileID: 1666482462}
   m_Layer: 0
   m_Name: Destructible
@@ -1299,7 +1272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5f8015eabcf5324997755b56e23e48d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount: 1500
+  amount: 1000
   translate:
     x: 0
     y: 2
@@ -2851,7 +2824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c80e6d63202cef44ca3ffdaccec693be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_graphyMode: 1
+  m_graphyMode: 0
   m_enableOnStartup: 1
   m_keepAlive: 0
   m_background: 1
@@ -2864,7 +2837,7 @@ MonoBehaviour:
   m_toggleActiveCtrl: 1
   m_toggleActiveAlt: 0
   m_graphModulePosition: 0
-  m_fpsModuleState: 2
+  m_fpsModuleState: 1
   m_goodFpsColor: {r: 0.20825918, g: 0.6792453, b: 0.62190783, a: 1}
   m_goodFpsThreshold: 60
   m_cautionFpsColor: {r: 0.9137255, g: 0.76862746, b: 0.41568628, a: 1}
@@ -6669,10 +6642,10 @@ GameObject:
   - component: {fileID: 543450653226667517}
   - component: {fileID: 3469287837143695960}
   - component: {fileID: 1711813855565870738}
+  - component: {fileID: 919132149493782348}
+  - component: {fileID: 919132149493782345}
   - component: {fileID: 919132149493782347}
   - component: {fileID: 919132149493782346}
-  - component: {fileID: 919132149493782345}
-  - component: {fileID: 919132149493782348}
   - component: {fileID: 919132149493782344}
   m_Layer: 0
   m_Name: SoccerBall
@@ -6709,10 +6682,6 @@ MonoBehaviour:
   playerInput:
     x: 0
     y: 0
-  velocity:
-    x: 0
-    y: 0
-    z: 0
   maxSpeed: 10
   maxAcceleration: 50
   ballRadius: 0.75

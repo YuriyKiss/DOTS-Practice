@@ -1,4 +1,3 @@
-using UnityEngine;
 using Unity.Physics;
 using Unity.Entities;
 using Unity.Transforms;
@@ -10,33 +9,45 @@ public class PlayerMoveSystem : SystemBase
     {
         float time = UnityEngine.Time.deltaTime;
 
-        Entities.ForEach((ref MoveData moveData, ref PhysicsVelocity physVelocity, ref Rotation rotation, ref Translation trans) => 
+        Entities.ForEach((ref MoveData moveData, ref PhysicsVelocity physVelocity, ref Translation trans) => 
         {
             float3 desiredVelocity = new float3(moveData.playerInput.x, 0f, moveData.playerInput.y) * moveData.maxSpeed;
 
             float maxSpeedChange = moveData.maxAcceleration * time;
 
-            moveData.velocity = physVelocity.Linear;
-            moveData.velocity.x = Mathf.MoveTowards(moveData.velocity.x, desiredVelocity.x, maxSpeedChange);
-            moveData.velocity.z = Mathf.MoveTowards(moveData.velocity.z, desiredVelocity.z, maxSpeedChange);
-            
-            float3 movement = moveData.velocity * time;
+            physVelocity.Linear.x = MoveTowards(physVelocity.Linear.x, desiredVelocity.x, maxSpeedChange);
+            physVelocity.Linear.z = MoveTowards(physVelocity.Linear.z, desiredVelocity.z, maxSpeedChange);
 
-            float distance = movement.x * movement.x + movement.y * movement.y + movement.z * movement.z;
-            if (distance > 0.001f)
-            {
-                float angle = distance * (180f / Mathf.PI) / moveData.ballRadius;
-                
-                Vector3 rotationAxis = Vector3.Cross(Vector3.up, movement).normalized;
-                rotation.Value = Quaternion.Euler(rotationAxis * angle) * rotation.Value;
-            }
-            else
-            {
-                physVelocity.Angular = float3.zero;
-            }
-            
-            physVelocity.Linear = moveData.velocity;
-            trans.Value = new float3(trans.Value.x, -0.125f, trans.Value.z);
+            // Handmade constraint on Y axis movement
+            physVelocity.Linear.y = 0;
+            trans.Value.y = -0.125f;
         }).Run();
+    }
+
+    public static float MoveTowards(float current, float target, float maxDelta)
+    {
+        if (Abs(target - current) <= maxDelta)
+        {
+            return target;
+        }
+        return current + Sign(target - current) * maxDelta;
+    }
+
+    public static float Abs(float f)
+    {
+        if (f < 0)
+            return -1 * f;
+        else
+            return f;
+    }
+
+    public static float Sign(float f)
+    {
+        if (f > 0)
+            return 1;
+        else if (f == 0)
+            return 0;
+        else
+            return -1;
     }
 }

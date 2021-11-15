@@ -5,7 +5,6 @@ using Unity.Mathematics;
 public struct MoveData : IComponentData
 {
     public float2 playerInput;
-    public float3 velocity;
 
     public float maxSpeed;
     public float maxAcceleration;
