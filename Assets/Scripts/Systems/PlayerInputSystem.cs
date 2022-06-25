@@ -4,7 +4,7 @@ using Unity.Mathematics;
 
 using Input = InputWrapper.Input;
 
-public class PlayerInputSystem : SystemBase
+public partial class PlayerInputSystem : SystemBase
 {
     protected override void OnUpdate()
     {

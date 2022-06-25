@@ -3,7 +3,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 
-public class PlayerMoveSystem : SystemBase
+public partial class PlayerMoveSystem : SystemBase
 {
     protected override void OnUpdate()
     {

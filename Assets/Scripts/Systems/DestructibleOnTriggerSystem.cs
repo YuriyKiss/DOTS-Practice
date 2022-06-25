@@ -7,39 +7,29 @@ using Unity.Mathematics;
 using Unity.Collections;
 using Unity.Physics.Systems;
 
-public class DestructibleOnTriggerSystem : JobComponentSystem
+public partial class DestructibleOnTriggerSystem : SystemBase
 {
-    // Worlds needed to schedule job
-    private BuildPhysicsWorld buildPhysicsWorld;
     private StepPhysicsWorld stepPhysicsWorld;
-
-    // Command buffer to init/destroy entities from inside jobs
     private EndSimulationEntityCommandBufferSystem commandBufferSystem;
 
     protected override void OnCreate()
     {
-        base.OnCreate();
-
-        buildPhysicsWorld = World.GetOrCreateSystem<BuildPhysicsWorld>();
         stepPhysicsWorld = World.GetOrCreateSystem<StepPhysicsWorld>();
-
         commandBufferSystem = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
     }
 
-    protected override JobHandle OnUpdate(JobHandle inputDeps)
+    protected override void OnUpdate()
     {
-        var job = new OnTriggerEnter();
+        var job = new OnTriggerEnter
+        {
+            destructGroup = GetComponentDataFromEntity<DestructibleTag>(true),
+            playerGroup = GetComponentDataFromEntity<PlayerTag>(true),
+            spawnGroup = GetComponentDataFromEntity<SpawnData>(true),
+            commandBuffer = commandBufferSystem.CreateCommandBuffer()
+        };
 
-        job.commandBuffer = commandBufferSystem.CreateCommandBuffer();
-
-        job.destructGroup = GetComponentDataFromEntity<DestructibleTag>(true);
-        job.playerGroup = GetComponentDataFromEntity<PlayerTag>(true);
-        job.spawnGroup = GetComponentDataFromEntity<SpawnData>(true);
-
-        JobHandle jobHandle = job.Schedule(stepPhysicsWorld.Simulation, ref buildPhysicsWorld.PhysicsWorld, inputDeps);
-        jobHandle.Complete();
-
-        return jobHandle;
+        Dependency = job.Schedule(stepPhysicsWorld.Simulation, Dependency);
+        commandBufferSystem.AddJobHandleForProducer(Dependency);
     }
 
     [BurstCompile]
